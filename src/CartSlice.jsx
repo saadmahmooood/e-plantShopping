@@ -3,22 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 export const CartSlice = createSlice({
   name: 'cart',
   initialState: {
-    items: [], // holds products added
+    items: [],
   },
   reducers: {
     addItem: (state, action) => {
-      // You can check for duplicates if you like:
-      const exists = state.items.find(item => item.name === action.payload.name);
-      if (!exists) {
-        state.items.push({ ...action.payload, quantity: 1 });
+      const { name, image, cost } = action.payload;
+      const existing = state.items.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        state.items.push({ name, image, cost, quantity: 1 });
       }
     },
     removeItem: (state, action) => {
-      state.items = state.items.filter(item => item.name !== action.payload.name);
+      state.items = state.items.filter(item => item.name !== action.payload);
     },
     updateQuantity: (state, action) => {
       const { name, quantity } = action.payload;
-      const item = state.items.find(item => item.name === name);
+      const item = state.items.find(i => i.name === name);
       if (item) item.quantity = quantity;
     },
   },
