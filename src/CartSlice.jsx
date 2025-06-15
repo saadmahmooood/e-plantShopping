@@ -1,3 +1,4 @@
+// === File: src/CartSlice.jsx ===
 import { createSlice } from '@reduxjs/toolkit';
 
 export const CartSlice = createSlice({
@@ -16,9 +17,11 @@ export const CartSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
+      // payload is the item name string
       state.items = state.items.filter(item => item.name !== action.payload);
     },
     updateQuantity: (state, action) => {
+      // payload: { name, quantity }
       const { name, quantity } = action.payload;
       const item = state.items.find(i => i.name === name);
       if (item) item.quantity = quantity;
